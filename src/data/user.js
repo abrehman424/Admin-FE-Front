@@ -45,7 +45,7 @@ const usersData = [
     ],
   },
   {
-    role: "Student",
+    role: "Students",
     data: [
       {
         id: 1,

@@ -13,19 +13,17 @@ const User = () => {
   const dropdownRefs = useRef({});
 
   const [currentPage, setCurrentPage] = useState(1);
-    const [itemsPerPage, setItemsPerPage] = useState(5);
+  const [itemsPerPage, setItemsPerPage] = useState(5);
 
   const buttons = usersData.map((roleGroup) => roleGroup.role);
 
   const currentGroup = usersData.find((group) => group.role === selected);
   const currentUsers = currentGroup?.data || [];
 
-
   const totalItems = currentUsers.length;
   const startIdx = (currentPage - 1) * itemsPerPage;
   const endIdx = startIdx + itemsPerPage;
   const paginatedUsers = currentUsers.slice(startIdx, endIdx);
-
 
   const isAllSelected = selectedIds.length === currentUsers.length;
 
@@ -44,8 +42,6 @@ const User = () => {
       setSelectedIds([...selectedIds, id]);
     }
   };
-  
-  
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -61,16 +57,16 @@ const User = () => {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [openDropdownId]);
-  
+
   return (
     <div className="md:mt-5 mx-auto">
       <div className="bg-white inset-shadow-sm shadow-xl rounded-lg px-4 py-5">
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between border-b border-[#F3F4F6] p-4 gap-4">
           <h2 className="text-xl font-inter font-semibold text-gray-800">
-            User Management
+            Users
           </h2>
           <div className="flex items-center gap-3 w-full sm:w-auto">
-            <div className="flex items-center border border-gray-200 bg-white px-3 py-2 rounded-lg shadow-sm flex-grow sm:flex-grow-0 sm:w-[250px]">
+            <div className="flex items-center border border-gray-200 bg-white px-3 py-2 rounded-lg shadow-sm grow sm:grow-0 sm:w-[250px]">
               <FiSearch className="text-gray-400 mr-2" size={16} />
               <input
                 type="text"
@@ -82,12 +78,12 @@ const User = () => {
               </span>
             </div>
             <button className="flex items-center gap-2 border border-gray-200 bg-white px-3 py-2 rounded-lg shadow-sm text-sm text-gray-700">
-              <MdFilterList className="w-[20px] h-[20px]" />
+              <MdFilterList className="w-5 h-5" />
               <span className="whitespace-nowrap">Sort by</span>
             </button>
           </div>
         </div>
-        <div className="px-4 py-3 border-b border-[#F3F4F6] flex gap-[16px] text-sm">
+        <div className="px-4 py-3 border-b border-[#F3F4F6] flex gap-4 text-sm">
           {buttons.map((label) => (
             <button
               key={label}
@@ -107,8 +103,8 @@ const User = () => {
         </div>
         <div className="overflow-x-auto insect-shadow-sm shadow-lg rounded-xl">
           <table className="w-full text-sm text-left border-b border-gray-200 mt-4">
-            <thead className="bg-[#F9FAFB] text-black font-inter font-medium">
-              <tr className="h-[44px]">
+            <thead className="bg-[rgb(249,250,251)] text-black font-inter font-medium">
+              <tr className="h-11">
                 <th className="pl-6">
                   <input
                     type="checkbox"
@@ -118,11 +114,9 @@ const User = () => {
                 </th>
                 <th className="pl-5">Name</th>
                 <th className="pl-5">Email</th>
-                <th className="pl-5">Organization</th>
-                <th className="pl-5">Role</th>
                 <th className="pl-5">Joined Date</th>
                 <th className="pl-5">Status</th>
-                <th className="pr-3">Action</th>
+                <th className="pr-5">Action</th>
               </tr>
             </thead>
             <tbody>
@@ -141,21 +135,37 @@ const User = () => {
                     </td>
                     <td className="p-6">{user.name}</td>
                     <td className="p-6">{user.email}</td>
-                    <td className="p-6">{user.organization}</td>
-                    <td className="p-6">{user.role}</td>
                     <td className="p-6">{user.joined}</td>
                     <td className="p-6">
                       <span
-                        className={`px-2 py-0.5 rounded text-xs font-medium ${
+                        className={`inline-flex items-center gap-1.5 px-2 py-1 rounded text-xs font-medium
+                        ${
                           user.status === "Active"
-                            ? "bg-green-100 text-green-600"
-                            : "bg-red-100 text-red-600"
-                        }`}
+                            ? "bg-[#E1FAEA] text-[#016626]"
+                            : user.status === "Blocked"
+                            ? "bg-[#FFE3E3] text-[#961616]"
+                            : user.status === "Offline"
+                            ? "bg-[#F1F1F1] text-[#4F4D55]"
+                            : "bg-yellow-100 text-yellow-600"
+                        }
+                      `}
                       >
+                        <span
+                          className={`w-1.5 h-1.5 rounded-full ${
+                            user.status === "Active"
+                              ? "bg-[#019939]"
+                              : user.status === "Blocked"
+                              ? "bg-[#E12121]"
+                              : user.status === "Offline"
+                              ? "bg-[#18181C]"
+                              : "bg-yellow-500"
+                          }`}
+                        ></span>
+
                         {user.status}
                       </span>
                     </td>
-                    <td className="p-3 text-right">
+                    <td className="p-4 items-center">
                       <div
                         className="relative inline-block"
                         ref={(el) => (dropdownRefs.current[user.id] = el)}
@@ -173,7 +183,7 @@ const User = () => {
                         {openDropdownId === user.id && (
                           <div className="absolute right-0 mt-1 w-32 bg-white border border-gray-200 rounded-lg shadow-lg z-10">
                             <Link
-                              to={`/user/profile/${user.id}`}
+                              to={`/users/profile/${user.id}`}
                               className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                             >
                               Profile
@@ -213,7 +223,7 @@ const User = () => {
             </tbody>
           </table>
         </div>
-               <div className="py-2.5 gap-3 flex justify-center">
+        <div className="py-2.5 gap-3 flex justify-center">
           <Pagination
             page={currentPage}
             setPage={setCurrentPage}
@@ -222,7 +232,6 @@ const User = () => {
             totalItems={totalItems}
           />
         </div>
-
       </div>
     </div>
   );
