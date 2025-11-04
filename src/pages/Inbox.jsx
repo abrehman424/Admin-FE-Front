@@ -160,6 +160,20 @@ const Inbox = () => {
               {chats.length}
             </span>
           </div>
+           <div className="flex items-center gap-3 w-full sm:w-auto border-b border-[#E5E7EB] py-2.5 px-3">
+            <div className="flex items-center border border-gray-200 bg-white px-3 py-2 rounded-lg shadow-sm grow sm:grow-0 w-full">
+              <FiSearch className="text-gray-400 mr-2" size={16} />
+              <input
+                type="text"
+                placeholder="Search"
+                className="outline-none text-sm text-gray-700 placeholder-gray-400 bg-transparent w-full"
+              />
+              <span className="ml-2 bg-gray-100 text-gray-500 text-xs px-1.5 py-0.5 rounded">
+                ⌘
+              </span>
+            </div>
+            
+          </div>
 
           <div className="flex-1 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent">
             {chats.map((chat) => (
@@ -225,7 +239,7 @@ const Inbox = () => {
                 onClick={() => setShowCallMenu((prev) => !prev)}
                 className="flex items-center gap-2 bg-[#FFFFFF] text-[#1376CD] px-3 py-1.5 rounded-md hover:bg-blue-200 border border-[#ECECED]"
               >
-                <MdFilterList className="w-[20px] h-[20px]" />
+                <MdFilterList className="w-5 h-5" />
                 <span className="text-sm font-medium">Call</span>
               </button>
 

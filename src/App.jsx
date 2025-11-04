@@ -12,6 +12,8 @@ import Roles from './pages/Permissions/Roles';
 import Profile from './pages/Users/Profile';
 import Chatsupport from './pages/Support/Chatsupport';
 import AirCraftProfile from './pages/AirCraftProfile';
+import AirCraftDetail from './pages/AirCraftProfile/AirCraftDetail';
+
 
 const App = () => {
   return (
@@ -32,6 +34,9 @@ const App = () => {
         <Route path="/users/profile/:id" element={<Profile />} />
 
         <Route path="/support/chatsupport" element={<Chatsupport />} />
+
+        <Route path="/air-craft-profile/aircraft/:id" element={<AirCraftDetail />} />
+
 
 
 

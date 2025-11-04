@@ -1,5 +1,4 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FiSearch } from "react-icons/fi";
 import { useParams } from "react-router-dom";
 import { FiMoreVertical } from "react-icons/fi";
@@ -91,10 +90,23 @@ const Profile = () => {
       details: ["Expires at: 28/10/2012"],
     },
   ];
+
+  useEffect(() => {
+  const handleClickOutside = (event) => {
+    if (!event.target.closest(".menu-container")) {
+      setOpenMenu(null);
+    }
+  };
+
+  document.addEventListener("click", handleClickOutside);
+  return () => document.removeEventListener("click", handleClickOutside);
+}, []);
+
+
   return (
     <div className="md:mt-5 mx-auto">
       <div className="bg-white inset-shadow-sm shadow-xs rounded-lg ">
-        <div className=" rounded-b-[8px] shadow-[0px_1px_2px_#0000000D] ">
+        <div className=" rounded-b-lg shadow-[0px_1px_2px_#0000000D] ">
           <div className="px-3.5 py-6 flex flex-col sm:flex-row sm:items-center sm:justify-between border-b border-gray-100">
             <div className="flex items-start gap-4">
               <img
@@ -107,7 +119,7 @@ const Profile = () => {
                 <p className="text-gray-600">Esther@example.com</p>
               </div>
             </div>
-            <button className="mt-4 sm:mt-0 w-[137px] h-[44px] flex items-center justify-center gap-2 px-4 py-2 bg-[#FEEBEB] text-[#F53535] rounded-lg  transition">
+            <button className="mt-4 sm:mt-0 w-[137px] h-11 flex items-center justify-center gap-2 px-4 py-2 bg-[#FEEBEB] text-[#F53535] rounded-lg  transition">
               <img src={gear_filler} alt="" className="w-4 h-4" />
               <span className="text-sm font-medium">Block User</span>
             </button>
@@ -139,13 +151,13 @@ const Profile = () => {
           </div>
           {activeTab === "profile" ? (
             <div className="px-5 py-4">
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-x-[20px] gap-y-[20px] text-sm text-gray-700">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-5 text-sm text-gray-700">
                 {profileData.map((item, index) => (
                   <div
                     key={index}
                     className="h-[75px] flex flex-col justify-start"
                   >
-                    <p className="text-[#8A8A8A] fw6 text-sm mb-[10px]">
+                    <p className="text-[#8A8A8A] fw6 text-sm mb-2.5">
                       {item.label}
                     </p>
                     {Array.isArray(item.value) ? (
@@ -174,7 +186,7 @@ const Profile = () => {
                   Flight Logs
                 </h2>
                 <div className="flex items-center gap-3 w-full sm:w-auto">
-                  <div className="flex items-center border border-gray-200 bg-white px-3 py-2 rounded-lg shadow-sm flex-grow sm:flex-grow-0 sm:w-[250px]">
+                  <div className="flex items-center border border-gray-200 bg-white px-3 py-2 rounded-lg shadow-sm grow sm:grow-0 sm:w-[250px]">
                     <FiSearch className="text-gray-400 mr-2" size={16} />
                     <input
                       type="text"
@@ -193,7 +205,7 @@ const Profile = () => {
                   <thead>
                     <tr>
                       <th colSpan={6} className="">
-                        <div className="flex items-center h-[40px] text-sm font-medium font-inter text-gray-700 bg-[#F4F4FF] rounded-[10px] px-4">
+                        <div className="flex items-center h-10 text-sm font-medium font-inter text-gray-700 bg-[#F4F4FF] rounded-[10px] px-4">
                           <div className="w-1/6">Date</div>
                           <div className="w-1/6">Time</div>
                           <div className="w-1/6">Instructor</div>
@@ -219,9 +231,9 @@ const Profile = () => {
                               </span>
                             </div>
                             <div className="w-2/7 ">{log.flightType}</div>
-                            <div className="relative flex justify-end">
+                            <div className="relative flex justify-end menu-container">
                               <FiMoreVertical
-                                className="text-gray-500 cursor-pointer"
+                                className="text-[#5C5F62] cursor-pointer"
                                 onClick={() => toggleMenu(index)}
                               />
                               {openMenu === index && (
@@ -285,9 +297,9 @@ const Profile = () => {
                       ))}
                     </div>
 
-                    <div className="relative w-1/12 flex justify-end items-center">
+                    <div className="relative w-1/12 flex justify-end items-center menu-container">
                       <FiMoreVertical
-                        className="text-gray-500 cursor-pointer"
+                        className="text-[#5C5F62] cursor-pointer"
                         onClick={() => toggleMenu(index)}
                       />
                       {openMenu === index && (
